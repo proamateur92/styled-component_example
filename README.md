@@ -1,70 +1,210 @@
-# Getting Started with Create React App
+# styled-component 라이브러리를 통해 효율적인 스타일링을 할 수 있다.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 시작하기
 
-## Available Scripts
+1. styled-component로 부터 styled를 임포트한다.
+   import styled from "styled-components";
 
-In the project directory, you can run:
+<br>
 
-### `npm start`
+2. 컴포넌트 내부에 스타일링할 유니크한 변수명을 정해준다.
+   ex) const 컴포넌트명 = styled.태그명
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+<br>
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+3. 스타일링 해준다.
 
-### `npm test`
+```
+import styled from "styled-components";
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
-### `npm run build`
+function App() {
+  return (
+    <Wrapper>
+    </Wrapper>
+  );
+}
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<br>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## styled로 명시한 컴포넌트는 props 속성을 내려받을 수 있다.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+const Item = styled.div`
+  width: 150px;
+  height: 150px;
+  background-color: ${(props) => props.bgColor};
+`;
 
-### `npm run eject`
+function App() {
+  return (
+    <Wrapper>
+      <Item bgColor="salmon" />
+      <Item bgColor="mediumPurple" />
+    </Wrapper>
+  );
+}
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## styled로 명시한 컴포넌트를 확장하여 사용해보자.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+const Item = styled.div`
+  width: 150px;
+  height: 150px;
+  background-color: ${(props) => props.bgColor};
+`;
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+const Circle = styled(Item)`
+  border-radius: 50%;
+  margin-top: 1rem;
+`;
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+function App() {
+  return (
+    <Wrapper>
+      <Item bgColor="salmon" />
+      <Circle bgColor="mediumPurple" />
+    </Wrapper>
+  );
+}
+```
 
-## Learn More
+## attr props를 작성해서 일괄적으로 스타일링 속성을 부여할 수 있다.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+const Input = styled.input({ required: true})`
+	background-color: 'mediumPurple';
+`;
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+function App() {
+  return (
+    <Wrapper as='header'>
+	<Input />
+	<Input />
+	<Input />
+	<Input />
+	<Input />
+	<Input />
+	...
+    </Wrapper>
+  );
+}
+```
 
-### Code Splitting
+## 하위 태그 스타일링
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- 상위 태그 스타일링에서 하위 태그를 명시해주면 된다.
+- 요소 자기자신을 가르킬 때는 & 기호를 사용한다.
 
-### Analyzing the Bundle Size
+```
+const Box = styled.div`
+  width: 150px;
+  height: 150px;
+  background-color: salmon;
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+  span {
+    font-size: 20px;
+      &:hover {
+	font-size: 40px;
+      }
+   }
+`;
 
-### Making a Progressive Web App
+...
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+<Box>
+  <span>Hello!</span>
+</Box>
+```
 
-### Advanced Configuration
+<br>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- 위의 경우에는 Box 컴포넌트 내부의 span 태그 요소만 적용된다.
+  하위 요소의 태그에 구애받고 싶지 않은 경우.
 
-### Deployment
+```
+const Span = styled.span`
+  font-size: 20px;
+`;
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+const Box = styled.div`
+  width: 150px;
+  height: 150px;
+  ${Span}:hover {
+    font-size: 40px;
+  }
+`;
 
-### `npm run build` fails to minify
+function App() {
+  return (
+    <Wrapper>
+      <Box>
+	<!-- as로 다른 태그명을 넘겨주면 된다. -->
+        <Span>Hello!</Span>
+      </Box>
+    </Wrapper>
+  );
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## animation
+
+- styled-component 라이브러리로부터 keyframes를 임포트한다.
+- import styled, { keyframes } from "styled-components";
+- 예시) cosnt 변수명 = keyframe``;
+
+```
+const rotation = keyframes`
+  0% {
+    background-color: red;
+  }
+  50% {
+    background-color: orange;
+  }
+  100% {
+    background-color: green;
+  }
+`;
+
+const Box = styled.div`
+  width: 150px;
+  height: 150px;
+  animation: ${rotation} 3s linear infinite;
+`;
+```
+
+## theme 설정하기
+
+- ThemeProvider를 임포트한다.
+- 최상위 컴포넌트에 ThemeProvider로 감싸준다.
+- color, background-color 요소를 테마 별로 선언하고 theme propr로 내려준다.
+
+```
+import { ThemeProvider } from "styled-components";
+
+...
+
+const darkTheme = {
+  textColor: "whitesmoke",
+  backgroundColor: "#111",
+};
+
+const lightTheme = {
+  textColor: "#111",
+  backgroundColor: "whitesmoke",
+};
+
+root.render(
+  <React.Fragment>
+    <ThemeProvider theme={darkTheme}>
+      <App />
+    </ThemeProvider>
+  </React.Fragment>
+);
+```
