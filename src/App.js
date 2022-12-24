@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import styled from "styled-components";
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Box = styled.div`
+  width: 150px;
+  height: 150px;
+  background-color: ${(props) => props.bgColor};
+`;
+
+const Circle = styled(Box).attrs({ required: true })`
+  border-radius: 50%;
+  margin-top: 1rem;
+`;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Wrapper as="header">
+      <Box bgColor="salmon" />
+      <Circle bgColor="mediumPurple" as="input" />
+    </Wrapper>
   );
 }
 
