@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/proamateur92/styled-component_example/static/css/main.043210aa.css",
+    "main.js": "/proamateur92/styled-component_example/static/js/main.d2484dad.js",
+    "index.html": "/proamateur92/styled-component_example/index.html",
+    "main.043210aa.css.map": "/proamateur92/styled-component_example/static/css/main.043210aa.css.map",
+    "main.d2484dad.js.map": "/proamateur92/styled-component_example/static/js/main.d2484dad.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.043210aa.css",
+    "static/js/main.d2484dad.js"
+  ]
+}
